@@ -6,68 +6,210 @@
     <title>JSP Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body>
-    <div class="container">
-        <h2>BOOK STORE</h2>
-        <!-- Button trigger modal -->
-        <div class="" style="width: 100%;">
-            <button type="button" class="btn btn-danger " style="align-items: right;" data-toggle="modal" data-target="#exampleModalCenter">
-                Add book
-            </button>
+    <div class="">
+        <!-- header -->
+        <div
+            class="py-8 bg-white shadow-lg flex gap-6 items-center border-b-[1px] border-solid border-neutral-300 mb-10">
+            <div class="pl-20">
+                <p class="text-4xl font-bold">BOOKSTORE</p>
+            </div>
+            <div class="ml-auto">
+                <img src="https://nguoinoitieng.tv/images/nnt/98/0/bc38.jpg" alt="" class="w-10 h-10 rounded-full">
+            </div>
+            <div class="pr-20">
+                <p>John Doe</p>
+            </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add book</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        <div class="px-20">
+            <!--  -->
+            <div class="flex items-center gap-6 pr-20">
+                <input type="text" placeholder="Search" onkeyup="onChange(this)"
+                    class="ml-auto h-14 px-4 rounded-lg w-100 border-[1px] border-solid border-neutral-300">
+
+                <button onclick="openModal('modal1')" class="px-6 py-3 rounded-lg bg-red-700 text-white ">Add book
+                </button>
+
+            </div>
+            <!-- modal -->
+            <div id="modal1" class="modal w-screen h-screen">
+                <div class="fixed flex items-center justify-center top-0 left-0 w-screen h-screen ">
+                    <div class="absolute z-0 bg-black/50 top-0 left-0 w-screen h-screen" onclick="closeModal()"></div>
+                    <div class="w-fit relative z-10  p-10 bg-white rounded-xl">
+                        <div class="flex items-center h-10">
+                            <p class="pb-10 font-bold text-3xl">Add book</p>
+                            <i class="fa-solid fa-xmark ml-auto" onclick="closeModal()"></i>
+                        </div>
+                        <div class="mb-10">
+                            <p>Name</p>
+                            <input type="text" id="name"
+                                class="ml-auto h-14 px-4 rounded-lg w-100 border-[1px] border-solid border-neutral-300">
+                        </div>
+                        <div class="mb-10">
+                            <p>Author</p>
+                            <input type="text" id="author"
+                                class="ml-auto h-14 px-4 rounded-lg w-100 border-[1px] border-solid border-neutral-300">
+                        </div>
+                        <div class="mb-10">
+                            <p>Topic</p>
+                            <input type="text" id="topic"
+                                class="ml-auto h-14 px-4 rounded-lg w-100 border-[1px] border-solid border-neutral-300">
+                        </div>
+                        <div class="flex">
+                            <button onclick=add()
+                                class="bg-red-700 text-white px-6 py-3 rounded-lg ml-auto">Create</button>
+
+                        </div>
                     </div>
-                    <div class="modal-body text-red-600">
-                        <form class="form-user">
-                            <div class="form-group">
-                                <label class="">Name</label>
-                                <input type="text"  class="form-control" name="name" placeholder="Enter Fullname">
-                            </div>
-                            <div class="form-group">
-                                <label>Author</label>
-                                <input type="text" class="form-control" name="author" placeholder="Enter Author">
-                            </div>
-                            <div class="form-group">
-                                <label>Topic</label>
-                                <input type="text" class="form-control" name="topic" placeholder="Enter topic">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                    </div>    
+                </div>
+            </div>
+
+        </div>
+        <div class=" px-20">
+            <table class="table table-bordered" id="render">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Author</td>
+                        <td>Topic</td>
+                        <td>Action</td>
+                    </tr>
+                    <button></button>
+                </thead>
+            </table>
+        </div>
+        <div class="" id="">
+            <div id="modal2" class="modal w-screen h-screen">
+                <div class="fixed flex items-center justify-center top-0 left-0 w-screen h-screen ">
+                    <div class="absolute z-0 bg-black/50 top-0 left-0 w-screen h-screen" onclick="closeModal()"></div>
+                    <div class="w-fit relative z-10  p-10 bg-white rounded-xl">
+                        <div class="flex items-center h-fit">
+                            <p class="pb-10 font-bold text-3xl">Delete book</p>
+                            <i class="fa-solid fa-xmark ml-auto" onclick="closeModal()"></i>
+                        </div>
+
+                        <p>Do you want to delete <span id="namedelete" class="font-bold"></span>    book ?</p>
+                        <div class="flex">
+                            <button onclick=deleteItem()
+                                class="bg-red-300 text-white px-6 py-3 rounded-lg ml-auto mt-6">Delete</button>
+                            <button onclick="closeModal()" class="bg-red-700 text-white px-6 py-3 rounded-lg ml-2 mt-6">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <table class="table table-bordered">
-            <tr>
-                <th>Name</th>
-                <th>Author</th>
-                <th>Topic</th>
-                <th>Action</th>
-            </tr>
-            <tr>
-                <td>Refactoring</td>
-                <td>Martin Fowler</td>
-                <td>Programming</td>
-                <td>
-                    <a class="text-danger"><ins>Delete</ins></a>
-                </td>
-            </tr>
-
-        </table>
     </div>
+
+    <script>
+
+        var data = [{
+            NAME: "Refactoring",
+            AUTHOR: "Martin Fowler",
+            TOPIC: "Programming"
+        },
+        {
+            NAME: "Designing Data-Intensive Applications",
+            AUTHOR: "Martin Kleppmann",
+            TOPIC: "Database"
+        }
+            , {
+            NAME: "The Phoenix Project",
+            AUTHOR: "Gene Kim",
+            TOPIC: "DevOps"
+        }]
+        var search = ""
+        var indexActive = -1
+
+        render();
+
+
+        function add() {
+            var book_name = document.getElementById("name").value
+            var book_author = document.getElementById("author").value
+            var book_topic = document.getElementById("topic").value
+
+            var item =
+            {
+                NAME: book_name,
+                AUTHOR: book_author,
+                TOPIC: book_topic
+            }
+
+            data.push(item)
+            render()
+            clear()
+            closeModal()
+        }
+
+        let modalActive = ""
+        function openModal(idModal) {
+            modalActive = idModal;
+            const modal = document.getElementById(idModal)
+            modal.classList.add("show")
+        };
+
+        function closeModal() {
+            const modal = document.getElementById(modalActive)
+            modal.classList.remove("show")
+        }
+
+
+        function render() {
+            const dataRender = data.filter(item => {
+                return item.NAME.toLowerCase().includes(search.toLowerCase()) ? true : false
+            })
+            table = `  <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Topic</th>
+                    <th>Action</th>
+                </tr> `
+            for (let i = 0; i < dataRender.length; i++) {
+                table += `  <tr>
+                    <td>${dataRender[i].NAME}</td>
+                    <td>${dataRender[i].AUTHOR}</td>
+                    <td>${dataRender[i].TOPIC}</td>
+                    <th>                
+                        <button onclick="onClickDelete( ${i})" >Delete</button>
+                    </th>
+                </tr> `
+            }
+            document.getElementById("render").innerHTML = table
+        }
+
+        function onClickDelete(index) {
+            openModal('modal2')
+            indexActive = index;
+            const item = data[index]
+            document.getElementById("namedelete").innerHTML=item.NAME
+        }
+
+        function clear() {
+            document.getElementById("name").value = ""
+            document.getElementById("author").value = ""
+            document.getElementById("topic").value = ""
+
+        }
+
+        function deleteItem() {
+            data.splice(indexActive, 1)
+            closeModal();
+            render()
+        }
+
+        function onChange(e) {
+            console.log(e.value)
+            search = e.value
+            render();
+        }
+
+        
+    </script>
 </body>
 
 </html>
