@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline"
+import { render } from "react-dom";
 
 const Demo = () => {
   const [textName, setName] = useState("");
   const [textAuthor, setAuthor] = useState("");
   const [textTopic, setTopic] = useState("");
+  const [keyword, setKeyword] = useState('')
+
 
   const onChangeName = (e) => {
     setName(e.target.value);
-    console.log(e.target.value);
   };
 
   const onChangeAuthor = (e) => {
@@ -172,7 +174,6 @@ const Demo = () => {
   }
   ]);
 
-
   const deleteTask = (index) => {
     list.splice(index, 1)
     setList([...list])
@@ -190,7 +191,6 @@ const Demo = () => {
     setName("")
     setAuthor("")
     setTopic("")
-    console.log(list)
   }
 
   const closeModal = () => {
@@ -202,19 +202,15 @@ const Demo = () => {
     closeModal()
   }
 
-
-
   const [page, setPage] = useState(0)
   const setActivePage = (index) => {
     setPage(index)
   }
   const itemPerPage = 3
-  const totalpage = list.length % itemPerPage === 0 ? Math.floor(list.length / itemPerPage) : Math.floor(list.length / itemPerPage) + 1
-
-  const arr = Array(totalpage).fill()
-  const renderList = list.slice((page) * itemPerPage, (page + 1) * itemPerPage)
-
-
+  
+  const listAfterSearch = list.filter((item) => item.name.includes(keyword))
+  const renderList = listAfterSearch.slice((page) * itemPerPage, (page + 1) * itemPerPage)
+  const totalpage = listAfterSearch.length % itemPerPage === 0 ? Math.floor(listAfterSearch.length / itemPerPage) : Math.floor(listAfterSearch.length / itemPerPage) + 1
 
   const getPositionPagination = (page) => {
     if (totalpage < 2) return { start: 0, end: 0, numberMiddle: [] }
@@ -234,9 +230,13 @@ const Demo = () => {
   }
 
   const deleteAndSave = (index) => {
-    console.log(index, page);
     deleteTask(index)
     onClickDelete()
+  }
+
+  const onChangeKeyword = (e) => {
+    setKeyword(e.target.value)
+    setPage(0)
   }
 
   return (
@@ -254,9 +254,10 @@ const Demo = () => {
       <div className="bg-neutral-100 px-5">
         <div className="flex items-center pt-10 mb-6">
           <input
-            type="text"
+            type="search"
             placeholder="Search"
             className="ml-auto px-3 py-1 border-[1px] border-solid border-neutral-300 rounded-sm  mr-3"
+            onChange={onChangeKeyword}
           />
           <button className="text-white bg-red-400 px-3 py-1  " onClick={() => setActive(!active)}>
             Add book
