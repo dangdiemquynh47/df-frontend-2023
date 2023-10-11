@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { render } from "react-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 const Demo = () => {
   const [textName, setName] = useState("");
@@ -23,168 +23,197 @@ const Demo = () => {
   const [list, setList] = useState([{
     name: "Refactoring",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:1,
   },
   {
     name: "Refactoring2",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:2,
   },
   {
     name: "Refactoring3",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:3,
   },
   {
     name: "Refactoring4",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:4,
   },
   {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:5,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:6,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:7,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:8,
   }, {
     name: "Refactoring2",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:9,
   },
   {
     name: "Refactoring3",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:10,
   },
   {
     name: "Refactoring4",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:11,
   },
   {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:12,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:13,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:14,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:15,
   },
   {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:16,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:17,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:18,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:19,
   },
   {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:20,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:21,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:22,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:23,
   }, {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:24,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:25,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:26,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:27,
   }, {
     name: "Refactoring5",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:28,
   },
   {
     name: "Refactoring6",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:29,
   },
   {
     name: "Refactoring7",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:30,
   },
   {
     name: "Refactoring8",
     author: "Martin Fowler",
-    topic: "	Programming"
+    topic: "	Programming",
+    id:31,
   }
   ]);
 
-  const deleteTask = (index) => {
-    list.splice(index, 1)
-    setList([...list])
-  };
+ 
   const [active, setActive] = useState(false);
 
   const saveObj = () => {
     const obj = {
       name: textName,
       author: textAuthor,
-      topic: textTopic
+      topic: textTopic,
+      id: uuidv4()
     }
     list.push(obj)
     setList([...list])
@@ -211,7 +240,11 @@ const Demo = () => {
   const listAfterSearch = list.filter((item) => item.name.includes(keyword))
   const renderList = listAfterSearch.slice((page) * itemPerPage, (page + 1) * itemPerPage)
   const totalpage = listAfterSearch.length % itemPerPage === 0 ? Math.floor(listAfterSearch.length / itemPerPage) : Math.floor(listAfterSearch.length / itemPerPage) + 1
-
+  const deleteTask = (id) => {
+    console.log(id);
+    const newList = list.filter(item => item.id !== id)
+    setList(newList)
+  };  
   const getPositionPagination = (page) => {
     if (totalpage < 2) return { start: 0, end: 0, numberMiddle: [] }
     const distance = 2
@@ -231,7 +264,7 @@ const Demo = () => {
 
   const deleteAndSave = (index) => {
     deleteTask(index)
-    onClickDelete()
+    onClickDelete(index)
   }
 
   const onChangeKeyword = (e) => {
@@ -337,7 +370,7 @@ const Demo = () => {
                     <td className="border border-slate-300">{item.author}</td>
                     <td className="border border-slate-300">{item.topic}</td>
                     <td className="border border-slate-300  underline text-red-600" >
-                      <p className="cursor-pointer" onClick={() => onClickDelete(index)}>Delete</p>
+                      <p className="cursor-pointer" onClick={() => onClickDelete(item.id)}>Delete</p>
                     </td>
                   </tr>
                 )
@@ -355,10 +388,10 @@ const Demo = () => {
                   <XMarkIcon className="w-6 h-6 cursor-pointer ml-auto" onClick={onClickDelete} />
                 </div>
 
-                <p>Do you want to delete <span className="font-bold">{renderList[idEdit]?.name}</span> book ?</p>
+                <p>Do you want to delete <span className="font-bold">{renderList.find(item => item.id === idEdit)?.name}</span>book ?</p>
                 <div className="flex">
-                  <button onClick={() => deleteAndSave(itemPerPage * page + idEdit)}
-                    className="bg-red-300 text-white px-6 py-3 rounded-lg ml-auto mt-6">Delete</button>
+                  <button onClick={() => deleteAndSave(idEdit)}
+                    className="bg-red-300 text-white px-6 py-3   rounded-lg ml-auto mt-6">Delete</button>
                   <button onClick={onClickDelete} className="bg-red-700 text-white px-6 py-3 rounded-lg ml-2 mt-6">Cancel</button>
                 </div>
               </div>
