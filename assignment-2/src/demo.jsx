@@ -237,6 +237,7 @@ const Demo = () => {
   const onChangeKeyword = (e) => {
     setKeyword(e.target.value)
     setPage(0)
+    console.log("quynh");
   }
 
   return (
