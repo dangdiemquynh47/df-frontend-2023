@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 const Demo = () => {
   const [textName, setName] = useState("");
@@ -20,190 +21,13 @@ const Demo = () => {
     setTopic(e.target.value);
   }
 
-  const [list, setList] = useState([{
-    name: "Refactoring",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:1,
-  },
-  {
-    name: "Refactoring2",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:2,
-  },
-  {
-    name: "Refactoring3",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:3,
-  },
-  {
-    name: "Refactoring4",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:4,
-  },
-  {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:5,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:6,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:7,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:8,
-  }, {
-    name: "Refactoring2",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:9,
-  },
-  {
-    name: "Refactoring3",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:10,
-  },
-  {
-    name: "Refactoring4",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:11,
-  },
-  {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:12,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:13,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:14,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:15,
-  },
-  {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:16,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:17,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:18,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:19,
-  },
-  {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:20,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:21,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:22,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:23,
-  }, {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:24,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:25,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:26,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:27,
-  }, {
-    name: "Refactoring5",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:28,
-  },
-  {
-    name: "Refactoring6",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:29,
-  },
-  {
-    name: "Refactoring7",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:30,
-  },
-  {
-    name: "Refactoring8",
-    author: "Martin Fowler",
-    topic: "	Programming",
-    id:31,
-  }
-  ]);
+  const [list, setList] = useState([]);
+
+  useEffect(()=> {
+    axios.get("https://admin.qnsport.vn/items/book").then((res) => {
+      setList(res.data.data)
+    })
+  }, [])
 
  
   const [active, setActive] = useState(false);
@@ -213,13 +37,16 @@ const Demo = () => {
       name: textName,
       author: textAuthor,
       topic: textTopic,
-      id: uuidv4()
+      // id: uuidv4()
     }
-    list.push(obj)
+    axios.post("https://admin.qnsport.vn/items/book",obj).then((res) => {
+      console.log(res);
+    list.push(res.data.data)
     setList([...list])
     setName("")
     setAuthor("")
     setTopic("")
+    })
   }
 
   const closeModal = () => {
@@ -237,7 +64,7 @@ const Demo = () => {
   }
   const itemPerPage = 3
   
-  const listAfterSearch = list.filter((item) => item.name.includes(keyword))
+  const listAfterSearch = list.filter((item) => item.name?.includes(keyword))
   const renderList = listAfterSearch.slice((page) * itemPerPage, (page + 1) * itemPerPage)
   const totalpage = listAfterSearch.length % itemPerPage === 0 ? Math.floor(listAfterSearch.length / itemPerPage) : Math.floor(listAfterSearch.length / itemPerPage) + 1
   const deleteTask = (id) => {
@@ -265,6 +92,7 @@ const Demo = () => {
   const deleteAndSave = (index) => {
     deleteTask(index)
     onClickDelete(index)
+    axios.delete("https://admin.qnsport.vn/items/book/" + idEdit)
   }
 
   const onChangeKeyword = (e) => {
@@ -364,7 +192,7 @@ const Demo = () => {
             <tbody>
               {renderList.map((item, index) => {
                 return (
-                  <tr>
+                  <tr key={item.id}>
 
                     <td className="border border-slate-300">{item.name}</td>
                     <td className="border border-slate-300">{item.author}</td>
